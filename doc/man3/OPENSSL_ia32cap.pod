@@ -17,7 +17,7 @@ represented logically below as five 64-bit vectors. This logical
 vector (LV) representation is used to streamline the definition of the 
 OPENSSL_ia32cap environment variable.
 
-Upon tookit initialization, the capability vectors are populated through
+Upon toolkit initialization, the capability vectors are populated through
 successive executions of the CPUID instruction, after which any OPENSSL_ia32cap
 environment variable capability bit modications are applied. After toolkit
 initialization is complete, populated vectors are then used to choose 
