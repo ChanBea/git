@@ -302,10 +302,10 @@ static const uint16_t kModRoots[128] = {
 /* reduce_once reduces 0 <= x < 2*kPrime, mod kPrime. */
 static uint16_t reduce_once(uint16_t x)
 {
-    assert(x < 2 * kPrime);
     const uint16_t subtracted = x - kPrime;
     uint16_t mask = 0u - (subtracted >> 15);
 
+    assert(x < 2 * kPrime);
     /*
      * On Aarch64, omitting a |value_barrier_u16| results in a 2x speedup of
      * ML-KEM overall and Clang still produces constant-time code using `csel`. On
@@ -321,11 +321,11 @@ static uint16_t reduce_once(uint16_t x)
  */
 static uint16_t reduce(uint32_t x)
 {
-    assert(x < kPrime + 2u * kPrime * kPrime);
     uint64_t product = (uint64_t)x * kBarrettMultiplier;
     uint32_t quotient = (uint32_t)(product >> kBarrettShift);
     uint32_t remainder = x - quotient * kPrime;
 
+    assert(x < kPrime + 2u * kPrime * kPrime);
     return reduce_once(remainder);
 }
 
@@ -392,7 +392,7 @@ static void vector_ntt(vector *a)
 static void scalar_inverse_ntt(scalar *s)
 {
     int step = DEGREE / 2;
-    int offset, k, i;
+    int offset, k, i, j;
     uint32_t step_root;
     uint16_t odd, even;
 
@@ -405,7 +405,7 @@ static void scalar_inverse_ntt(scalar *s)
         k = 0;
         for (i = 0; i < step; i++) {
             step_root = kInverseNTTRoots[i + step];
-            for (int j = k; j < k + offset; j++) {
+            for (j = k; j < k + offset; j++) {
                 odd = s->c[j + offset];
                 even = s->c[j];
                 s->c[j] = reduce_once(odd + even);
@@ -631,12 +631,12 @@ static const uint8_t kMasks[8] = {0x01, 0x03, 0x07, 0x0f,
 
 static void scalar_encode(uint8_t *out, const scalar *s, int bits)
 {
-    assert(bits <= (int)sizeof(*s->c) * 8 && bits != 1);
     uint8_t out_byte = 0;
     int out_byte_bits = 0;
     int i, element_bits_done, chunk_bits, out_bits_remaining;
     uint16_t element;
 
+    assert(bits <= (int)sizeof(*s->c) * 8 && bits != 1);
     for (i = 0; i < DEGREE; i++) {
         element = s->c[i];
         element_bits_done = 0;
@@ -700,13 +700,13 @@ static void vector_encode(uint8_t *out, const vector *a, int bits)
  */
 static int scalar_decode(scalar *out, const uint8_t *in, int bits)
 {
-    if (!ossl_assert(bits <= (int)sizeof(*out->c) * 8 && bits != 1))
-        return 0;
     uint8_t in_byte = 0;
     int in_byte_bits_left = 0;
     int i, element_bits_done, chunk_bits;
     uint16_t element;
 
+    if (!ossl_assert(bits <= (int)sizeof(*out->c) * 8 && bits != 1))
+        return 0;
     for (i = 0; i < DEGREE; i++) {
         element = 0;
         element_bits_done = 0;
@@ -1094,6 +1094,7 @@ static int mlkem_decap(uint8_t *out_shared_secret,
     uint8_t expected_ciphertext[OSSL_MLKEM1024_CIPHERTEXT_BYTES];
     uint8_t failure_key[32];
     uint8_t mask;
+    int i;
 
     if (!mlkem_init())
         return 0;
@@ -1110,7 +1111,7 @@ static int mlkem_decap(uint8_t *out_shared_secret,
     kdf(failure_key, priv->fo_failure_secret, ciphertext, ciphertext_len);
     mask = constant_time_eq_int_8(CRYPTO_memcmp(ciphertext,
                                                 expected_ciphertext, ciphertext_len), 0);
-    for (int i = 0; i < OSSL_MLKEM768_SHARED_SECRET_BYTES; i++)
+    for (i = 0; i < OSSL_MLKEM768_SHARED_SECRET_BYTES; i++)
         out_shared_secret[i] = constant_time_select_8(mask,
                                                       key_and_randomness[i],
                                                       failure_key[i]);
