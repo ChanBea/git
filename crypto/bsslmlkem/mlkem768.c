@@ -14,10 +14,14 @@
 #include <string.h>
 #include <assert.h>
 #include <openssl/rand.h>
+#include <openssl/err.h>
 #include <crypto/mlkem.h>
 #include <internal/sha3.h>
 #include <internal/constant_time.h>
 #include <internal/common.h>
+#ifndef NDEBUG
+# include <stdio.h>
+#endif
 
 #ifndef OPENSSL_NO_MLKEM
 
@@ -134,7 +138,7 @@ static int mlkem_init(void)
         sha3_512_cache = EVP_MD_fetch(NULL, "SHA3-512", NULL);
         if (shake128_cache == NULL || shake256_cache == NULL ||
             sha3_256_cache == NULL || sha3_512_cache == NULL) {
-            fprintf(stderr, "could not obtain MD cache pointers\n");
+            ERR_raise(ERR_LIB_CRYPTO, ERR_R_INTERNAL_ERROR);
             return 0;
         }
     }
@@ -181,6 +185,7 @@ static void print_hex(const uint8_t *data, int len, const char *msg)
         printf("%02x ", data[i]);
     }
     printf("\n\n");
+    fflush(0);
 # endif
 }
 
@@ -1058,7 +1063,6 @@ int ossl_mlkem768_encap(uint8_t *out_ciphertext,
     print_hex((uint8_t *)public_key, sizeof(ossl_mlkem768_public_key), "PK");
     print_hex(out_shared_secret, OSSL_MLKEM768_SHARED_SECRET_BYTES, "SS2");
     print_hex(out_ciphertext, OSSL_MLKEM768_CIPHERTEXT_BYTES, "CT2");
-    fflush(0);
     return 1;
 }
 
@@ -1116,7 +1120,6 @@ static int mlkem_decap(uint8_t *out_shared_secret,
                                                       key_and_randomness[i],
                                                       failure_key[i]);
     print_hex(out_shared_secret, OSSL_MLKEM768_SHARED_SECRET_BYTES, "SS");
-    fflush(0);
     return 1;
 }
 
