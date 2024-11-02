@@ -125,7 +125,7 @@ static const TLS_GROUP_CONSTANTS group_list[] = {
         OSSL_PARAM_int(OSSL_CAPABILITY_TLS_GROUP_MAX_DTLS, \
                         (unsigned int *)&group_list[idx].maxdtls), \
         OSSL_PARAM_int(OSSL_CAPABILITY_TLS_GROUP_IS_KEM, \
-                        (unsigned int *)&group_list[idx].is_kem), \
+                       (unsigned int *)&group_list[idx].is_kem), \
         OSSL_PARAM_END \
     }
 
@@ -210,7 +210,7 @@ static const OSSL_PARAM param_group_list[][11] = {
     TLS_GROUP_ENTRY("ffdhe6144", "ffdhe6144", "DH", 36),
     TLS_GROUP_ENTRY("ffdhe8192", "ffdhe8192", "DH", 37),
 # endif
-/* TODO(ML-KEM): Decide final name, e.g., ML-KEM768 or MLKEM768 */
+    /* TODO(ML-KEM): Decide final name, e.g., ML-KEM768 or MLKEM768 */
     TLS_GROUP_ENTRY("MLKEM-768", "MLKEM-768", "MLKEM-768", 38),
 };
 #endif /* !defined(OPENSSL_NO_EC) || !defined(OPENSSL_NO_DH) */
