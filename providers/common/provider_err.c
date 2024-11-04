@@ -172,6 +172,8 @@ static const ERR_STRING_DATA PROV_str_reasons[] = {
      "operation not supported for this keytype"},
     {ERR_PACK(ERR_LIB_PROV, 0, PROV_R_OUTPUT_BUFFER_TOO_SMALL),
      "output buffer too small"},
+    {ERR_PACK(ERR_LIB_PROV, 0, PROV_R_PAIR_WISE_CONSISTENCY_TEST_FAILED),
+     "pair wise consistency test failed"},
     {ERR_PACK(ERR_LIB_PROV, 0, PROV_R_PARENT_CANNOT_GENERATE_RANDOM_NUMBERS),
      "parent cannot generate random numbers"},
     {ERR_PACK(ERR_LIB_PROV, 0, PROV_R_PARENT_CANNOT_SUPPLY_ENTROPY_SEED),
