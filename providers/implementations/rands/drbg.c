@@ -235,7 +235,7 @@ static size_t get_entropy(PROV_DRBG *drbg, unsigned char **pout, int entropy,
      *       a warning in some static code analyzers, but it's
      *       intentional and correct here.
      */
-    bytes = drbg->parent_get_seed(drbg->parent, pout, drbg->strength,
+    bytes = drbg->parent_get_seed(drbg->parent, pout, entropy,
                                   min_len, max_len, prediction_resistance,
                                   (unsigned char *)&drbg, sizeof(drbg));
     ossl_drbg_unlock_parent(drbg);
