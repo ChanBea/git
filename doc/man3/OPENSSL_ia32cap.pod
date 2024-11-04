@@ -11,20 +11,20 @@ OPENSSL_ia32cap - the x86[_64] processor capabilities vector
 =head1 DESCRIPTION
 
 OpenSSL supports a range of x86[_64] instruction set extensions and
-features. These extensions are denoted by individual or groups of bits
-stored internaly as ten 32-bit capability vectors and for simplicity 
-represented logically below as five 64-bit vectors. This logical 
-vector (LV) representation is used to streamline the definition of the 
+features. These extensions are denoted by individual bits or groups of bits
+stored internally as ten 32-bit capability vectors and for simplicity
+represented logically below as five 64-bit vectors. This logical
+vector (LV) representation is used to streamline the definition of the
 OPENSSL_ia32cap environment variable.
 
 Upon toolkit initialization, the capability vectors are populated through
 successive executions of the CPUID instruction, after which any OPENSSL_ia32cap
-environment variable capability bit modications are applied. After toolkit
-initialization is complete, populated vectors are then used to choose 
+environment variable capability bit modifications are applied. After toolkit
+initialization is complete, populated vectors are then used to choose
 between different code paths to provide optimal performance across a wide
 range of x86[_64] based processors.
 
-Further CPUID information can be found in the Intel Architecture
+Further CPUID information can be found in the Intel(R) Architecture
 Instruction Set Extensions Programming Reference, and the AMD64 Architecture
 Programmer's Manual (Volume 3).
 
@@ -36,7 +36,7 @@ CPUID.(EAX=01H).ECX:
 
 =over 4
 
-=item bit #0+4 denoting presence of Time-Stamp Counter.
+=item bit #0+4 denoting presence of Time-Stamp Counter;
 
 =item bit #0+19 denoting availability of CLFLUSH instruction;
 
@@ -159,11 +159,11 @@ CPUID.(EAX=24H,ECX=0H).EBX:
 
 =item bits #256+32+[0:7] denoting AVX10 Converged Vector ISA Version (8 bits);
 
-=item bits #256+48 denoting AVX10 XMM support;
+=item bit #256+48 denoting AVX10 XMM support;
 
-=item bits #256+49 denoting AVX10 YMM support;
+=item bit #256+49 denoting AVX10 YMM support;
 
-=item bits #256+50 denoting AVX10 ZMM support;
+=item bit #256+50 denoting AVX10 ZMM support;
 
 =back
 
@@ -188,7 +188,7 @@ The 'B<~>' character is used to specify a bit mask of the extensions to be disab
 a particular logical vector.
 
 To illustrate, the following will disable AESNI (LV0 bit 57) and VAES (LV1 bit 41)
-extensions and therefore any codepaths using those extensions:
+extensions and therefore any code paths using those extensions:
 
 C<env OPENSSL_ia32cap=~0x200000000000000:~0x20000000000>
 

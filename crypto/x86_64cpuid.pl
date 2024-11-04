@@ -204,17 +204,17 @@ OPENSSL_ia32_cpuid:
 	and	\$0xfffeffff,%ebx	# ~(1<<16)
 					# suppress AVX512F flag on Skylake-X
 
-.Lnotskylakex:				# save extended feature flags
+.Lnotskylakex:		# save extended feature flags
 	mov	%ebx,8(%rdi)		# save cpuid(EAX=0x7, ECX=0x0).EBX to OPENSSL_ia32cap_P[2]
 	mov	%ecx,12(%rdi)		# save cpuid(EAX=0x7, ECX=0x0).ECX to OPENSSL_ia32cap_P[3]
 	mov	%edx,16(%rdi)		# save cpuid(EAX=0x7, ECX=0x0).EDX to OPENSSL_ia32cap_P[4]
 
 	movd	%xmm1,%eax		# Restore leaf 07H Max Sub-leaves
-	cmp	\$0x1,%eax			# Do we have cpuid(EAX=0x7, ECX=0x1)?
+	cmp	\$0x1,%eax		# Do we have cpuid(EAX=0x7, ECX=0x1)?
 	jb .Lno_extended_info
 	mov	\$0x7,%eax
 	mov \$0x1,%ecx
-	cpuid					# cpuid(EAX=0x7, ECX=0x1)
+	cpuid		# cpuid(EAX=0x7, ECX=0x1)
 	mov	%eax,20(%rdi)		# save cpuid(EAX=0x7, ECX=0x1).EAX to OPENSSL_ia32cap_P[5]
 	mov	%edx,24(%rdi)		# save cpuid(EAX=0x7, ECX=0x1).EDX to OPENSSL_ia32cap_P[6]
 	mov	%ebx,28(%rdi)		# save cpuid(EAX=0x7, ECX=0x1).EBX to OPENSSL_ia32cap_P[7]
@@ -223,9 +223,9 @@ OPENSSL_ia32_cpuid:
 	and \$0x80000,%edx		# Mask cpuid(EAX=0x7, ECX=0x1).EDX bit 19 to detect AVX10 support
 	cmp \$0x0,%edx
 	je .Lno_extended_info
-	mov	\$0x24,%eax			# Have AVX10 Support, query for details
+	mov	\$0x24,%eax		# Have AVX10 Support, query for details
 	mov \$0x0,%ecx
-	cpuid					# cpuid(EAX=0x24, ECX=0x0) AVX10 Leaf
+	cpuid		# cpuid(EAX=0x24, ECX=0x0) AVX10 Leaf
 	mov	%ebx,36(%rdi)		# save cpuid(EAX=0x24, ECX=0x0).EBX to OPENSSL_ia32cap_P[9]
 
 .Lno_extended_info:
