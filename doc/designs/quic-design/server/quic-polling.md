@@ -211,7 +211,7 @@ consistent interface around polling.
 To date, `BIO_POLL_DESCRIPTOR` structures have been used to contain an OS socket
 file descriptor (`int` for POSIX, `SOCKET` for Win32), which can be used with
 APIs such as `select(2)`. The tagged union structure is extended to support
-specifying a SSL object pointer:
+specifying an SSL object pointer:
 
 ```c
 #define BIO_POLL_DESCRIPTOR_SSL 2   /* (SSL *) */
@@ -1688,7 +1688,7 @@ Worked Examples
   translation.
 - The poll method poll() call reports the results and returns.
 
-Note that custom poller methods configured on a SSL object are used for internal
+Note that custom poller methods configured on an SSL object are used for internal
 polling (blocking API calls) only. Thus they have no effect on the above
 scenario.
 
@@ -1835,7 +1835,7 @@ contractual guarantee and we might do so in future for fast identification of
 what we need to handle if we handle multiple OS-level sockets in future).
 
 Setting a poll method on a poll group provides a mechanism used for polling
-using that event group. Note that a custom poll method configured on a SSL
+using that event group. Note that a custom poll method configured on an SSL
 object is **not** used for the translation process performed by a poll group,
 even when polling that SSL object. Translation is driven by
 `SSL_get_[rw]poll_descriptor`.

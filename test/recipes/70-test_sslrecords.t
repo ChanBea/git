@@ -137,7 +137,7 @@ sub run_tests
         };
 
         # The TLSv1.2 in SSLv2 ClientHello need to run at security level 0
-        # because in a SSLv2 ClientHello we can't send extensions to indicate
+        # because in an SSLv2 ClientHello we can't send extensions to indicate
         # which signature algorithm we want to use, and the default is SHA1.
 
         #Test 5: Inject an SSLv2 style record format for a TLSv1.2 ClientHello
@@ -528,7 +528,7 @@ sub add_sslv2_filter
             0x00, # Null compression
             0x00, 0x00; # Extensions len
 
-        # Split this into 3: A TLS record; a SSLv2 record and a TLS record.
+        # Split this into 3: A TLS record; an SSLv2 record and a TLS record.
         # We deliberately split the second record prior to the Challenge/Random
         # and set the first byte of the random to 1. This makes the second SSLv2
         # record look like an SSLv2 ClientHello

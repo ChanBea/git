@@ -99,7 +99,7 @@ SSL object is a valid connection which can be used in a normal manner.
 
 =back
 
-The SSL_is_listener() function returns 1 if and only if a SSL object is a
+The SSL_is_listener() function returns 1 if and only if an SSL object is a
 listener SSL object.
 
 The SSL_get0_listener() function returns a listener object which is related to

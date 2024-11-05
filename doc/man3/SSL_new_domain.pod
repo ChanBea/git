@@ -37,9 +37,9 @@ parent of a number of child objects such as QUIC listener SSL objects. Once a
 QUIC domain SSL object has been created, a listener can be created under it
 using L<SSL_new_listener_from(3)>.
 
-SSL_is_domain() returns 1 if a SSL object is a QUIC domain SSL object.
+SSL_is_domain() returns 1 if an SSL object is a QUIC domain SSL object.
 
-SSL_get0_domain() obtains a pointer to the QUIC domain SSL object in a SSL
+SSL_get0_domain() obtains a pointer to the QUIC domain SSL object in an SSL
 object hierarchy (if any).
 
 All SSL objects in a QUIC event domain use the same domain flags, and the domain
