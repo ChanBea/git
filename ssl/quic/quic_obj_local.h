@@ -132,9 +132,9 @@ enum {
  * Initialises a QUIC_OBJ structure with zero or more roles active. Returns 1
  * on success or 0 on failure.
  *
- * ctx: A SSL_CTX used to initialise the SSL base object structure.
+ * ctx: An SSL_CTX used to initialise the SSL base object structure.
  *
- * type: A SSL_TYPE_* value designating the SSL object type.
+ * type: An SSL_TYPE_* value designating the SSL object type.
  *
  * parent_obj: NULL if this is the root APL object in a new hierarchy, or a
  * pointer to the parent APL object otherwise.

@@ -160,7 +160,7 @@ This may be a QCSO or a QLSO. See [the server API design](server/quic-server-api
 `SSL_new` using a QUIC method, or by a QLSO.
 
 **QCTX**: QUIC Context. This is a utility object defined within the QUIC APL
-which helps to unwrap a SSL object pointer (a QLSO, QCSO or QSSO) into the
+which helps to unwrap an SSL object pointer (a QLSO, QCSO or QSSO) into the
 relevant structure pointers such as `QUIC_LISTENER`, `QUIC_CONNECTION` or
 `QUIC_XSO`.
 
